@@ -2,6 +2,7 @@ package com.Video.Player.Demo;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -24,7 +25,7 @@ public class MainActivity extends Activity {
     // Root view's LayoutParams
     private FrameLayout.LayoutParams mRootParam;
     // Custom Video View
-    private VodView mVodView;
+    private org.videolan.libvlc.media.VideoView mVodView;
     // detector to pinch zoom in/out
     private ScaleGestureDetector mScaleGestureDetector;
     // detector to single tab
@@ -49,7 +50,7 @@ public class MainActivity extends Activity {
         setBrightness();
         initControls();
         mRootParam = (FrameLayout.LayoutParams) ((View) findViewById(R.id.root_view)).getLayoutParams();
-        mVodView = (VodView) findViewById(R.id.vodView1);
+        mVodView = (org.videolan.libvlc.media.VideoView) findViewById(R.id.vodView1);
 
 
         llbar=(LinearLayout)findViewById(R.id.llbar);
@@ -57,8 +58,11 @@ public class MainActivity extends Activity {
         llVolume=(LinearLayout)findViewById(R.id.llVolume);
 
         // Video Uri
-        Uri uri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.allshare_video);
+        Uri uri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.movi);
         mVodView.setVideoURI(uri);
+
+        startActivity(new Intent(this, VLCApplication.showTvUi() ? AudioPlayerActivity.class : MainActivity.class));
+
         // set up gesture listeners
         mScaleGestureDetector = new ScaleGestureDetector(this, new MyScaleGestureListener());
         mGestureDetector = new GestureDetector(this, new MySimpleOnGestureListener());
@@ -299,8 +303,8 @@ public class MainActivity extends Activity {
                 mH = mVodView.getHeight();
             }
             Log.d("onScale", "scale=" + detector.getScaleFactor() + ", w=" + mW + ", h=" + mH);
-            mVodView.setFixedVideoSize(mW, mH); // important
-            mRootParam.gravity=Gravity.CENTER;
+           // mVodView.setFixedVideoSize(mW, mH); // important
+            mRootParam.gravity= Gravity.CENTER;
             mRootParam.width = mW;
             mRootParam.height = mH;
             return true;

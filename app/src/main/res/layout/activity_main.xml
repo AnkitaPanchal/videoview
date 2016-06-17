@@ -10,7 +10,7 @@
 
 
 
-    <com.Video.Player.Demo.VodView
+    <org.videolan.libvlc.media.VideoView
         android:id="@+id/vodView1"
         android:layout_gravity="center"
         android:layout_width="match_parent"
